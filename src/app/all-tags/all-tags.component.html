@@ -1,0 +1,14 @@
+<div *ngIf="mobile">
+
+    <div class="tagHead">TAGS</div>
+    <div class="d-flex flex-wrap">
+        <div *ngFor="let tag of tags; let i=index">
+            <div *ngIf="i<10 || showmore" class="tagBtn " (click)="onTagEmit(i)"
+                [ngStyle]="clr[i]==1 ? {'color': 'orange'} : {}">
+                {{tag}}
+            </div>
+        </div>
+    </div>
+    <div class="showM" *ngIf="!showmore" (click)="showMore()">Show 10 more</div>
+
+</div>

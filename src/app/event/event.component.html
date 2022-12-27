@@ -1,0 +1,69 @@
+<div class="card">
+    <div class=" banner-container">
+        <img class="card-img-top" src={{event.cover_picture}} alt="Card image cap" style="width: 100%; height: 31vh;">
+        <div *ngIf="event.registration_status!='PAST'" class="register-badge h6 ">
+            <span class="p-2 text-2 m-1 mb-2 rounded">
+                <svg height="17" width="16" class="blinking">
+                    <circle cx="8" cy="11" r="4" fill="red" />
+
+                </svg>
+                Registration <strong>Open</strong> till <strong>{{
+                    resistarationEndTime |date: 'hh:mm aaa, dd MMM yyyy'
+                    }}</strong></span>
+        </div>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{event.name}}</h5>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <label>Start Time</label>
+                    <!--  -->
+                    <p class="text-muted">{{start_time |date: 'dd MMM yyyy, hh:mm aaa'}}</p>
+                    <!--  -->
+                </div>
+                <div class="col-sm">
+                    <label>Entry Fee</label>
+                    <p class="text-muted">{{event.fees}}</p>
+                </div>
+                <div class="col-sm">
+                    <label>Venue</label>
+                    <p class="text-muted">{{event.venue}}</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="detail">
+            <p class="card-text">{{event.short_desc}}</p>
+            <div class="d-flex">
+                <div class="bg-dark-subtle me-2 my-1" *ngFor="let card_tag of event.card_tags; let i = index">
+                    <p *ngIf="i<3" class="badge" style="margin-bottom: inherit;">{{card_tag}}</p>
+                </div>
+            </div>
+
+            <div *ngIf="card_tag_length>3" style="color: orange">+{{card_tag_length-3}} more</div>
+        </div>
+        <div class="inner-detail">
+            <div class="d-flex">
+                <div *ngIf="top_user.length>0" class="d-flex">
+                    <div *ngFor="let user of top_user">
+                        <img *ngIf="user.image_url!=''" src={{user.image_url}} alt="" title={{user.name}}
+                            class="registerimg">
+                        <img *ngIf="user.image_url==''" src="https://files.codingninjas.in/0000000000001270.png" alt=""
+                            title={{user.name}}>
+                    </div>
+                </div>
+                <div class="btn ms-auto " *ngIf="event.registration_status=='REGISTRATIONS_OPEN'"
+                    style="background-color: orange; color: white; position: right">Register Now</div>
+            </div>
+
+            <div *ngIf="countResiterUser>0" class="d-flex">
+                <p *ngIf="top_user.length>0" class="registered-para">and
+                    <strong>{{register_user.other_users_count}}</strong> others
+                    <span *ngIf="event.registration_status=='PAST' && top_user.length>0"> participated.</span>
+                    <span *ngIf="event.registration_status!='PAST' && top_user.length>0">are participating.</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

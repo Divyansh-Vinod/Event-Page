@@ -1,0 +1,268 @@
+<div class="filterBtn" *ngIf="mobile==0" (click)="getMobileTags()">
+  <div *ngIf="mobile==0"><img src="https://www.codingninjas.com/assets-landing/images/filter-events-wave.svg"> Filter
+    Events</div>
+</div>
+
+<div class="filterBtn" *ngIf="mobile!=0" (click)="getMobileTags()">
+  <div class="applyFilters">Apply Filters</div>
+</div>
+
+<div class="mobile">
+  <app-all-tags [mobile]="mobile" (tagsEmit)="onChageTag($event)" [clrTag]="clearTagCheck"></app-all-tags>
+</div>
+
+<div *ngIf="!mobile">
+
+  <nav class="navbar fixed-top navbar-expand-lg nav">
+    <div class="container-fluid">
+      <a class="navbar-brand ms-5" href="#">
+        <img class="ms-5" src="https://files.codingninjas.in/cn-logo-dark-9824.svg" alt="LOGO" width="80" height="34">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-5 me-auto mb-2 mb-lg-0">
+          <li class="nav-item mx-4 dropdown">
+            <a class="nav-link dropdown-toggle" style="color: whitesmoke" href="#" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Courses
+            </a>
+          </li>
+          <li class="nav-item mx-4">
+            <a class="nav-link active" style="color: whitesmoke" aria-current="page" href="#">Scholarship</a>
+          </li>
+          <li class="nav-item dropdown mx-4">
+            <a class="nav-link dropdown-toggle" style="color: whitesmoke" href="#" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Community
+            </a>
+          </li>
+          <li class="nav-item dropdown mx-4">
+            <a class="nav-link dropdown-toggle" style="color: whitesmoke" href="#" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Practice
+            </a>
+          </li>
+
+        </ul>
+        <button class="btn btn-primary mx-3" style="color: orange; background-color: whitesmoke">
+          Login
+        </button>
+        <button class="btn btn-primary mx-3" style="color: white; background-color: #FE8C05">
+          Enroll Now
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- <h2>srdtfyughjk</h2> -->
+
+
+
+
+  <div id="ew" class="outer-categories">
+    <div id="list-header" class="hd">
+      <div class="header-text" style="color: whitesmoke">EVENTS &amp; NEWS</div>
+      <div class="header-subtitle" style="color: whitesmoke">Learn, Compete &amp; Grow</div>
+    </div>
+    <div class="outer-container">
+      <div class="tabs event-categories">
+        <a class="tab selected" (click)="onChangeAllEventCategory(1)"
+          [ngStyle]="event_category=='ALL_EVENTS'?{'color': 'orange'}:{}">
+          <img alt="" src="https://www.codingninjas.com/assets-landing/images/all-events-unselected.svg" />
+          All Events
+        </a>
+        <a class="tab" (click)="onChangeAllEventCategory(2)"
+          [ngStyle]="event_category=='WEBINAR'?{'color': 'orange'}:{}"><img alt=""
+            src="https://www.codingninjas.com/assets-landing/images/webinar-unselected.svg" />
+          Webinars
+        </a>
+        <a class="tab" (click)="onChangeAllEventCategory(3)"
+          [ngStyle]="event_category=='CODING_EVENT'?{'color': 'orange'}:{}"><img alt=""
+            src="https://www.codingninjas.com/assets-landing/images/coding-events-unselected.svg" />
+          Coding Events </a>
+        <a class="tab" (click)="onChangeAllEventCategory(4)"
+          [ngStyle]="event_category=='BOOTCAMP_EVENT'?{'color': 'orange'}:{}"><img alt="bootcamp-icon"
+            src="https://files.codingninjas.in/bootcamp_events_unselected-5397.png" height=30 width=30 />
+          Bootcamp Events </a>
+        <a class="tab" (click)="onChangeAllEventCategory(5)"
+          [ngStyle]="event_category=='WORKSHOP'?{'color': 'orange'}:{}"><img alt="workshop-icon"
+            src="https://files.codingninjas.in/workshop_unselected-5395.png" height=30 width=30 />
+          Workshop
+        </a>
+      </div>
+
+
+      <div class="tabs event-sub-categories">
+        <a class="tab selected" (click)="onChangeEventSubcategory(1)"
+          [ngStyle]="event_sub_catagory == 'Upcoming'?{'color': 'orange'}:{}">
+          Upcoming </a>
+        <a class="tab" (click)="onChangeEventSubcategory(2)"
+          [ngStyle]="event_sub_catagory == 'Archived'?{'color': 'orange'}:{}">
+          {{event_category=="WEBINAR"?"Recorded":"Archived"}} </a>
+        <a *ngIf="event_category!='CODING_EVENT'" class="tab" (click)="onChangeEventSubcategory(3)"
+          [ngStyle]="event_sub_catagory == 'All Time Favorites'?{'color': 'orange'}:{}">
+          All Time Favorites </a>
+      </div>
+
+      <div class="events-body">
+        <div class="event-cards-container">
+          <div class="events-container ng-star-inserted">
+            <h1 *ngIf="events.length==0">No Events</h1>
+            <div class="ng-star-inserted">
+              <div *ngFor="let event of events;let i =index;">
+                <div *ngIf="i%2===0" class="row">
+                  <div class="col-sm">
+                    <app-event [event]="event" [timestart]="timeAllEventStart[i]"></app-event>
+                  </div>
+                  <div *ngIf="i+1<events.length" class="col-sm">
+                    <app-event [event]="events[i+1]" [timestart]="timeAllEventStart[i+1]"></app-event>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="events.length">
+                <button [disabled]="currentPage==1" class="btn btn-md me-1 text-light"
+                  style="background-color: #FA7328;" (click)="prevPage()">
+                  &lt;
+                </button>
+                <span> Page <input class="text-center" value="{{currentPage}}" style="width: 40px;" type="number"
+                    min="1" max="{{totalPages}}" id="pageVal" name="pageVal" (change)="functionPage()">
+                  of {{totalPages}}</span>
+                <button [disabled]="currentPage==totalPages" class="btn btn-md ms-1 text-light"
+                  style="background-color: #FA7328;" (click)="nextPage()">
+                  &gt;
+                </button>
+              </div>
+            </div><!---->
+          </div>
+        </div>
+        <div class="tags-container">
+          <app-all-tags (tagsEmit)="onChageTag($event)" [clrTag]="clearTagCheck"></app-all-tags>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+  <!-- Remove the container if you want to extend the Footer to full width. -->
+  <div>
+
+    <!-- Footer -->
+    <footer class="text-center text-lg-start text-white" style="background-color: #0B2441">
+      <!-- Section: Social media -->
+      <section class="d-flex justify-content-between p-4" style="background-color: #0B2441">
+
+        <!-- Right -->
+        <div>
+          <a href="" class="text-white me-4">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="" class="text-white me-4">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="" class="text-white me-4">
+            <i class="fab fa-google"></i>
+          </a>
+          <a href="" class="text-white me-4">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="" class="text-white me-4">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="" class="text-white me-4">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+        <!-- Right -->
+      </section>
+      <!-- Section: Social media -->
+
+      <!-- Section: Links  -->
+      <section class="">
+        <div class="container text-center text-md-start mt-5">
+          <!-- Grid row -->
+          <div class="row mt-3">
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+              <!-- Content -->
+              <p>
+                <img src="https://files.codingninjas.in/new-logo-03-11984.svg">
+              </p>
+
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold" style="color: white">Coding Ninjas</h6>
+              <!-- <hr
+                class="mb-4 mt-0 d-inline-block mx-auto"
+                style="width: 60px; background-color: #7c4dff; height: 2px"
+                /> -->
+              <p>
+                <a href="#!" class="text-white">About Us</a>
+              </p>
+              <p>
+                <a href="#!" class="text-white">Privacy Policy</a>
+              </p>
+              <p>
+                <a href="#!" class="text-white">Terms and Conditions</a>
+              </p>
+              <p>
+                <a href="#!" class="text-white">Our Students</a>
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold" style="color: white">Useful links</h6>
+
+              <p>
+                <a href="#!" class="text-white">Your Account</a>
+              </p>
+              <p>
+                <a href="#!" class="text-white">Become an Affiliate</a>
+              </p>
+              <p>
+                <a href="#!" class="text-white">Shipping Rates</a>
+              </p>
+              <p>
+                <a href="#!" class="text-white">Help</a>
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold" style="color: white">Contact</h6>
+
+              <p><i class="fas fa-home mr-3"></i> Gurgaon, India</p>
+              <p><i class="fas fa-envelope mr-3"></i> contact@codingninjas.com</p>
+              <p><i class="fas fa-phone mr-3"></i> 1800-123-3598</p>
+              <p><i class="fas fa-print mr-3"></i> 1800-123-4643</p>
+            </div>
+            <!-- Grid column -->
+          </div>
+          <!-- Grid row -->
+        </div>
+      </section>
+      <!-- Section: Links  -->
+
+      <!-- Copyright -->
+      <div class="text-center p-3" style="background-color: #0B2441">
+      </div>
+      <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+
+  </div>
+  <!-- End of .container -->
